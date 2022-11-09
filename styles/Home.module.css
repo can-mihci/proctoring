@@ -1,0 +1,23 @@
+.highlight {
+    background-color: greenyellow;
+}
+
+.instructor-row {
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+}
+
+.form {
+    display: grid;
+    margin: 10px 100px;
+    grid-template-columns: auto auto;
+}
+
+.edit-buttons {
+    display: flex;
+}
+
+.edit-buttons button {
+    flex: 1;
+}
