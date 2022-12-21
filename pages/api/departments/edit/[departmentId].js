@@ -7,20 +7,17 @@ export default async function handler(req, res) {
   try {
     const client = await clientPromise;
     const db = client.db("project");
-    const instructors = db.collection("instructors");
+    const departments = db.collection("departments");
     if (req.method === "PUT") {
-      const { instructorId, name, lastname, title, departmentId } = req.query;
-      const filter = { _id: ObjectId(instructorId) };
+      const { departmentId, name } = req.query;
+      const filter = { _id: ObjectId(departmentId) };
       const options = { upsert: false };
       const updateDoc = {
         $set: {
-          firstName: name,
-          lastName: lastname,
-          title: title,
-          departmentId: departmentId
+          departmentName: name,
         }
       };
-      const result = await instructors.updateOne(filter, updateDoc, options);
+      const result = await departments.updateOne(filter, updateDoc, options);
       console.log(result);
       res.status(200).json({ result });
     }
