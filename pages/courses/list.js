@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { clear } from "dom-helpers";
 import { ConvertTitle, titleOptions } from "../../helpers/helpers";
+import Navbar from "../../components/navbar";
 
 export default function Instructors() {
   const [instructors, setInstructors] = useState([]);
@@ -437,134 +438,145 @@ export default function Instructors() {
   for (let i = 2022; i < 2040; i++) {
     listYears.push(i);
   }
-  if (isLoadingInstructors || isLoadingDepartments)
-    return (
-      <div style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100vh"}}> 
-        <Oval
-          height="80"
-          width="80"
-          radius="9"
-          color="green"
-          ariaLabel="three-dots-loading"
-        />
-      </div>
-    );
   return (
-    <div>
-      <form
-        className={styles["form-main"]}
-        onSubmit={handleSubmit(submitNewCourse)}
-      >
-        <div className={styles["form-body"]}>
-          <label htmlFor="year-select">Yıl</label>
-          <select {...register("year")} id="year-select">
-            <option value="">Seçiniz...</option>
-            {listYears.map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="semester-select">Yarıyıl</label>
-          <select {...register("semester")} id="semester-select">
-            <option value="">Seçiniz...</option>
-            {["1", "2"].map((semester) => (
-              <option key={semester} value={semester}>
-                {semester === "1" ? "Güz" : "Bahar"}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="level-select">Sınıf</label>
-          <select {...register("level")} id="level-select">
-            <option value="">Seçiniz...</option>
-            {["1", "2", "3", "4"].map((level) => (
-              <option key={level} value={level}>
-                {level}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="department-select">Anabilim Dalı</label>
-          <select {...register("departmentId")} id="department-select">
-            <option value="">Seçiniz...</option>
-            {departments.map((department) => (
-              <option key={department.id} value={department.id}>
-                {department.label}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="course-code-input">Ders Kodu</label>
-          <input
-            {...register("courseCode")}
-            placeholder="Ders Kodu"
-            title="Ders Kodu"
-          />
-          <label htmlFor="course-type-select">Ders Tipi</label>
-          <select {...register("courseType")} id="course-type-select">
-            <option value="">Seçiniz...</option>
-            {["Zorunlu", "Seçmeli", "YÖK"].map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="course-name-input">Ders Adı</label>
-          <input
-            {...register("courseName")}
-            placeholder="Ders Adı"
-            title="Ders Adı"
-          />
-          <label htmlFor="instructor-select">Öğretim Elemanı</label>
-          <select {...register("instructorId")} id="instructor-select">
-            <option value="">Seçiniz...</option>
-            {instructors.map((instructor) => {
-              return (
-                <option key={instructor._id} value={instructor._id}>
-                  {`${ConvertTitle(instructor.title)} ${instructor.firstName} ${
-                    instructor.lastName
-                  }`}
-                </option>
-              );
-            })}
-          </select>
-          <label htmlFor="registered-students-input">
-            Kayıtlı Öğrenci Sayısı
-          </label>
-          <input
-            {...register("registeredStudents")}
-            placeholder="Kayıtlı Öğrenci Sayısı"
-            title="Kayıtlı Öğrenci Sayısı"
+    <>
+      <Navbar />
+
+      {isLoadingInstructors || isLoadingDepartments ? (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+          }}
+        >
+          <Oval
+            height="80"
+            width="80"
+            radius="9"
+            color="green"
+            ariaLabel="three-dots-loading"
           />
         </div>
-        <div className={styles["form-button-area"]}>
-          <input
-            style={{ flex: 1 }}
-            type="submit"
-            value={editMode ? "Düzenle" : "Yeni Ekle"}
-          />
-          {editMode ? (
-            <button
-              onClick={handleDelete}
-              type="button"
-              style={{ margin: "5px" }}
-              className={styles["form-button-right"]}
-              style={{ flex: 1 }}
-            >
-              Sil
-            </button>
-          ) : (
-            ""
-          )}
+      ) : (
+        <div>
+          <form
+            className={styles["form-main"]}
+            onSubmit={handleSubmit(submitNewCourse)}
+          >
+            <div className={styles["form-body"]}>
+              <label htmlFor="year-select">Yıl</label>
+              <select {...register("year")} id="year-select">
+                <option value="">Seçiniz...</option>
+                {listYears.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+              <label htmlFor="semester-select">Yarıyıl</label>
+              <select {...register("semester")} id="semester-select">
+                <option value="">Seçiniz...</option>
+                {["1", "2"].map((semester) => (
+                  <option key={semester} value={semester}>
+                    {semester === "1" ? "Güz" : "Bahar"}
+                  </option>
+                ))}
+              </select>
+              <label htmlFor="level-select">Sınıf</label>
+              <select {...register("level")} id="level-select">
+                <option value="">Seçiniz...</option>
+                {["1", "2", "3", "4"].map((level) => (
+                  <option key={level} value={level}>
+                    {level}
+                  </option>
+                ))}
+              </select>
+              <label htmlFor="department-select">Anabilim Dalı</label>
+              <select {...register("departmentId")} id="department-select">
+                <option value="">Seçiniz...</option>
+                {departments.map((department) => (
+                  <option key={department.id} value={department.id}>
+                    {department.label}
+                  </option>
+                ))}
+              </select>
+              <label htmlFor="course-code-input">Ders Kodu</label>
+              <input
+                {...register("courseCode")}
+                placeholder="Ders Kodu"
+                title="Ders Kodu"
+              />
+              <label htmlFor="course-type-select">Ders Tipi</label>
+              <select {...register("courseType")} id="course-type-select">
+                <option value="">Seçiniz...</option>
+                {["Zorunlu", "Seçmeli", "YÖK"].map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+              <label htmlFor="course-name-input">Ders Adı</label>
+              <input
+                {...register("courseName")}
+                placeholder="Ders Adı"
+                title="Ders Adı"
+              />
+              <label htmlFor="instructor-select">Öğretim Elemanı</label>
+              <select {...register("instructorId")} id="instructor-select">
+                <option value="">Seçiniz...</option>
+                {instructors.map((instructor) => {
+                  return (
+                    <option key={instructor._id} value={instructor._id}>
+                      {`${ConvertTitle(instructor.title)} ${
+                        instructor.firstName
+                      } ${instructor.lastName}`}
+                    </option>
+                  );
+                })}
+              </select>
+              <label htmlFor="registered-students-input">
+                Kayıtlı Öğrenci Sayısı
+              </label>
+              <input
+                {...register("registeredStudents")}
+                placeholder="Kayıtlı Öğrenci Sayısı"
+                title="Kayıtlı Öğrenci Sayısı"
+              />
+            </div>
+            <div className={styles["form-button-area"]}>
+              <input
+                style={{ flex: 1 }}
+                type="submit"
+                value={editMode ? "Düzenle" : "Yeni Ekle"}
+              />
+              {editMode ? (
+                <button
+                  onClick={handleDelete}
+                  type="button"
+                  style={{ flex: 1 }}
+                  className={styles["form-button-right"]}
+                >
+                  Sil
+                </button>
+              ) : (
+                ""
+              )}
+            </div>
+          </form>
+          <div className={styles["data-table-container"]}>
+            <CustomDataTable
+              columns={columns}
+              data={tableData}
+              progressPending={isLoadingDepartments || isLoadingInstructors}
+              onSelectedRowsChange={handleSelect}
+              selectableRowDisabled={rowDisabledCriteria}
+              selectableRows={true}
+            />
+          </div>
         </div>
-      </form>
-      <div className={styles["data-table-container"]}>
-        <CustomDataTable
-          columns={columns}
-          data={tableData}
-          progressPending={isLoadingDepartments || isLoadingInstructors}
-          onSelectedRowsChange={handleSelect}
-          selectableRowDisabled={rowDisabledCriteria}
-        />
-      </div>
-    </div>
+      )}
+    </>
   );
 }

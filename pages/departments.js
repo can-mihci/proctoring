@@ -4,6 +4,7 @@ import CustomDataTable from "../components/data-table";
 import Axios from "axios";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import Navbar from "../components/navbar";
 
 export default function Instructors() {
   const [departments, setDepartments] = useState([]);
@@ -127,6 +128,8 @@ export default function Instructors() {
   }
 
   return (
+    <>
+    <Navbar/>
     <div>
       <form
         className={styles["form-main"]}
@@ -151,9 +154,8 @@ export default function Instructors() {
             <button
               onClick={handleDelete}
               type="button"
-              style={{ margin: "5px" }}
-              className={styles["form-button-right"]}
               style={{ flex: 1 }}
+              className={styles["form-button-right"]}
             >
               Sil
             </button>
@@ -169,8 +171,10 @@ export default function Instructors() {
           progressPending={isLoadingDepartments}
           onSelectedRowsChange={handleSelect}
           selectableRowDisabled={rowDisabledCriteria}
+          selectableRows
         />
       </div>
     </div>
+    </>
   );
 }

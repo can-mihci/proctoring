@@ -6,9 +6,10 @@ export default function MyComponent(props) {
             columns={props.columns}
             data={props.data}
             progressPending={props.progressPending}
-            selectableRows
+            selectableRows={props.selectableRows}
             onSelectedRowsChange={props.onSelectedRowsChange}
             selectableRowDisabled={props.selectableRowDisabled}
+            conditionalRowStyles={props.conditionalRowStyles}
         />
     );
 };
