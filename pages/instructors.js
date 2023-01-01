@@ -1,5 +1,6 @@
 import styles from "../styles/Instructor.module.css";
 import CustomDataTable from "../components/data-table";
+import { Oval } from "react-loader-spinner";
 
 import Axios from "axios";
 import { useState, useEffect } from "react";
@@ -226,74 +227,93 @@ export default function Instructors() {
   return (
     <>
       <Navbar />
-      <div>
-        <form
-          className={styles["form-main"]}
-          onSubmit={handleSubmit(submitNewInstructor)}
+      {isLoadingDepartments || isLoadingInstructors ? (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+          }}
         >
-          <div className={styles["form-body"]}>
-            <label htmlFor="department-select">Anabilim Dalı</label>
-            <select {...register("departmentId")} id="department-select">
-              <option value="">Seçiniz...</option>
-              {departments.map((department) => (
-                <option key={department.id} value={department.id}>
-                  {department.label}
-                </option>
-              ))}
-            </select>
-            <label htmlFor="title-select">Unvan</label>
-            <select {...register("title")} id="title-select">
-              <option value="">Seçiniz...</option>
-              {titleOptions.map((title) => (
-                <option key={title.id} value={title.id}>
-                  {title.label}
-                </option>
-              ))}
-            </select>
-            <label htmlFor="first-name-input">Adı</label>
-            <input
-              {...register("firstName")}
-              placeholder="Adı"
-              title="first-name-input"
-            />
-            <label htmlFor="last-name-input">Soyadı</label>
-            <input
-              {...register("lastName")}
-              placeholder="Soyadı"
-              title="last-name-input"
-            />
-          </div>
-          <div className={styles["form-button-area"]}>
-            <input
-              style={{ flex: 1 }}
-              type="submit"
-              value={editMode ? "Düzenle" : "Yeni Ekle"}
-            />
-            {editMode ? (
-              <button
-                onClick={handleDelete}
-                type="button"
-                style={{ flex: "1" }}
-                className={styles["form-button-right"]}
-              >
-                Sil
-              </button>
-            ) : (
-              ""
-            )}
-          </div>
-        </form>
-        <div className={styles["data-table-container"]}>
-          <CustomDataTable
-            columns={columns}
-            data={tableData}
-            progressPending={isLoadingDepartments || isLoadingInstructors}
-            onSelectedRowsChange={handleSelect}
-            selectableRows
-            selectableRowDisabled={rowDisabledCriteria}
+          <Oval
+            height="80"
+            width="80"
+            radius="9"
+            color="green"
+            ariaLabel="three-dots-loading"
           />
         </div>
-      </div>
+      ) : (
+        <div>
+          <form
+            className={styles["form-main"]}
+            onSubmit={handleSubmit(submitNewInstructor)}
+          >
+            <div className={styles["form-body"]}>
+              <label htmlFor="department-select">Anabilim Dalı</label>
+              <select {...register("departmentId")} id="department-select">
+                <option value="">Seçiniz...</option>
+                {departments.map((department) => (
+                  <option key={department.id} value={department.id}>
+                    {department.label}
+                  </option>
+                ))}
+              </select>
+              <label htmlFor="title-select">Unvan</label>
+              <select {...register("title")} id="title-select">
+                <option value="">Seçiniz...</option>
+                {titleOptions.map((title) => (
+                  <option key={title.id} value={title.id}>
+                    {title.label}
+                  </option>
+                ))}
+              </select>
+              <label htmlFor="first-name-input">Adı</label>
+              <input
+                {...register("firstName")}
+                placeholder="Adı"
+                title="first-name-input"
+              />
+              <label htmlFor="last-name-input">Soyadı</label>
+              <input
+                {...register("lastName")}
+                placeholder="Soyadı"
+                title="last-name-input"
+              />
+            </div>
+            <div className={styles["form-button-area"]}>
+              <input
+                style={{ flex: 1 }}
+                type="submit"
+                value={editMode ? "Düzenle" : "Yeni Ekle"}
+              />
+              {editMode ? (
+                <button
+                  onClick={handleDelete}
+                  type="button"
+                  style={{ flex: "1" }}
+                  className={styles["form-button-right"]}
+                >
+                  Sil
+                </button>
+              ) : (
+                ""
+              )}
+            </div>
+          </form>
+          <div className={styles["data-table-container"]}>
+            <CustomDataTable
+              columns={columns}
+              data={tableData}
+              progressPending={isLoadingDepartments || isLoadingInstructors}
+              onSelectedRowsChange={handleSelect}
+              selectableRows
+              selectableRowDisabled={rowDisabledCriteria}
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 }

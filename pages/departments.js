@@ -1,5 +1,6 @@
 import styles from "../styles/Instructor.module.css";
 import CustomDataTable from "../components/data-table";
+import { Oval } from "react-loader-spinner";
 
 import Axios from "axios";
 import { useState, useEffect } from "react";
@@ -129,52 +130,72 @@ export default function Instructors() {
 
   return (
     <>
-    <Navbar/>
-    <div>
-      <form
-        className={styles["form-main"]}
-        onSubmit={handleSubmit(submitDepartment)}
-      >
-        <div className={styles["form-body"]}>
-          <label htmlFor="department-name-input">Bölüm Adı</label>
-          <input
-            {...register("departmentName")}
-            placeholder="Adı"
-            title="department-name-input"
+      <Navbar />
+
+      {isLoadingDepartments ? (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+          }}
+        >
+          <Oval
+            height="80"
+            width="80"
+            radius="9"
+            color="green"
+            ariaLabel="three-dots-loading"
           />
         </div>
-        <div className={styles["form-button-area"]}>
-          <input
-            className={styles["form-button"]}
-            style={{ flex: 1 }}
-            type="submit"
-            value={editMode ? "Düzenle" : "Yeni Ekle"}
-          />
-          {editMode ? (
-            <button
-              onClick={handleDelete}
-              type="button"
-              style={{ flex: 1 }}
-              className={styles["form-button-right"]}
-            >
-              Sil
-            </button>
-          ) : (
-            ""
-          )}
+      ) : (
+        <div>
+          <form
+            className={styles["form-main"]}
+            onSubmit={handleSubmit(submitDepartment)}
+          >
+            <div className={styles["form-body"]}>
+              <label htmlFor="department-name-input">Bölüm Adı</label>
+              <input
+                {...register("departmentName")}
+                placeholder="Adı"
+                title="department-name-input"
+              />
+            </div>
+            <div className={styles["form-button-area"]}>
+              <input
+                className={styles["form-button"]}
+                style={{ flex: 1 }}
+                type="submit"
+                value={editMode ? "Düzenle" : "Yeni Ekle"}
+              />
+              {editMode ? (
+                <button
+                  onClick={handleDelete}
+                  type="button"
+                  style={{ flex: 1 }}
+                  className={styles["form-button-right"]}
+                >
+                  Sil
+                </button>
+              ) : (
+                ""
+              )}
+            </div>
+          </form>
+          <div className={styles["data-table-container"]}>
+            <CustomDataTable
+              columns={columns}
+              data={departments}
+              progressPending={isLoadingDepartments}
+              onSelectedRowsChange={handleSelect}
+              selectableRowDisabled={rowDisabledCriteria}
+              selectableRows
+            />
+          </div>
         </div>
-      </form>
-      <div className={styles["data-table-container"]}>
-        <CustomDataTable
-          columns={columns}
-          data={departments}
-          progressPending={isLoadingDepartments}
-          onSelectedRowsChange={handleSelect}
-          selectableRowDisabled={rowDisabledCriteria}
-          selectableRows
-        />
-      </div>
-    </div>
+      )}
     </>
   );
 }
