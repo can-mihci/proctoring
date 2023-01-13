@@ -19,7 +19,6 @@ export default async function handler(req, res) {
         instructorId,
         semester,
         level,
-        courseType,
         registeredStudents,
         courseId,
       } = req.query;
@@ -29,7 +28,6 @@ export default async function handler(req, res) {
         $set: {
           courseName,
           courseCode,
-          courseType,
           instructorId,
           departmentId,
           registeredStudents,

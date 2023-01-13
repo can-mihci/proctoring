@@ -1,20 +1,20 @@
 export function ConvertTitle (code){
-    if (code === "ArsGor") return "Arş. Gör.";
-    if (code === "ArsGorDr") return "Arş. Gör. Dr.";
-    if (code === "OgrGor") return "Öğr. Gör.";
-    if (code === "OgrGorDr") return "Öğr. Gör. Dr.";
-    if (code === "DrOgr") return "Dr. Öğr. Üyesi";
-    if (code === "DocDr") return "Doç. Dr.";
-    if (code === "ProfDr") return "Prof. Dr.";
+    if (code === "Araş.Gör.") return "Arş. Gör.";
+    if (code === "Araş.Gör.Dr.") return "Arş. Gör. Dr.";
+    if (code === "Öğr.Gör.") return "Öğr. Gör.";
+    if (code === "Öğr.Gör.Dr.") return "Öğr. Gör. Dr.";
+    if (code === "Dr.Öğr.Üyesi") return "Dr. Öğr. Üyesi";
+    if (code === "Doç.Dr.") return "Doç. Dr.";
+    if (code === "Prof.Dr.") return "Prof. Dr.";
     return ""
 }
 
 export const titleOptions = [
-    { id: "ArsGor", label: "Arş. Gör." },
-    { id: "ArsGorDr", label: "Arş. Gör. Dr." },
-    { id: "OgrGor", label: "Öğr. Gör." },
-    { id: "OgrGorDr", label: "Öğr. Gör. Dr." },
-    { id: "DrOgr", label: "Dr. Öğr. Üyesi" },
-    { id: "DocDr", label: "Doç. Dr." },
-    { id: "ProfDr", label: "Prof. Dr." },
+    { id: "Araş.Gör.", label: "Arş. Gör." },
+    { id: "Araş.Gör.Dr.", label: "Arş. Gör. Dr." },
+    { id: "Öğr.Gör.", label: "Öğr. Gör." },
+    { id: "Öğr.Gör.Dr.", label: "Öğr. Gör. Dr." },
+    { id: "Dr.Öğr.Üyesi", label: "Dr. Öğr. Üyesi" },
+    { id: "Doç.Dr.", label: "Doç. Dr." },
+    { id: "Prof.Dr.", label: "Prof. Dr." },
   ];

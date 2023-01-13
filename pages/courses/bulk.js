@@ -25,22 +25,15 @@ export default function Courses() {
                 );
                 return null;
               })(),
-          departmentName: row[2],
-          courseCode: row[3],
-          courseType: row[4],
-          courseName: row[5],
-          courseYear: row[6]
-            ? row[6].split("-")[0]
-            : (() => {
-                alert(
-                  "Excel dosyasındaki derslerden en az birinde öğretim yılı (A sütunu) bilgisi girilmemiş"
-                );
-                return null;
-              })(),
-          instTitle: row[7],
-          instFirstName: row[8],
-          instLastName: row[9],
-          registeredStudents: row[10],
+          departmentName: row[3],
+          option: row[4],
+          courseCode: row[10],
+          courseName: row[11],
+          courseYear: row[5],
+          instTitle: row[13],
+          instFirstName: (row[14] ? row[14].toLocaleUpperCase('tr-TR') : ""),
+          instLastName: ((row[15] ? row[15].toLocaleUpperCase('tr-TR') : "") + (row[16] ? row[16].toLocaleUpperCase('tr-TR') : "")),
+          registeredStudents: row[17],
         };
       });
       console.table(stagedCourses);
@@ -96,13 +89,13 @@ export default function Courses() {
                 } else {
                   if (
                     !(
-                      entry.instTitle === "ProfDr" ||
-                      entry.instTitle === "DocDr" ||
-                      entry.instTitle === "DrOgrtUy" ||
-                      entry.instTitle === "ArsGor" ||
-                      entry.instTitle === "ArsGorDr" ||
-                      entry.instTitle === "OgrGor" ||
-                      entry.instTitle === "OgrGorDr"
+                      entry.instTitle === "Prof.Dr." ||
+                      entry.instTitle === "Doç.Dr." ||
+                      entry.instTitle === "Dr.Öğr.Üyesi" ||
+                      entry.instTitle === "Araş.Gör." ||
+                      entry.instTitle === "Araş.Gör.Dr." ||
+                      entry.instTitle === "Öğr.Gör." ||
+                      entry.instTitle === "Öğr.Gör.Dr."
                     )
                   ) {
                     !errorState ? setErrorState(true) : "";

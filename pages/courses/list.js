@@ -56,7 +56,6 @@ export default function Instructors() {
               semester: course.semester,
               departmentName: staged_department ? staged_department.label : "",
               courseCode: course.courseCode,
-              courseType: course.courseType,
               courseName: course.courseName,
               level: course.level,
               instTitle: staged_instructor
@@ -90,7 +89,6 @@ export default function Instructors() {
       semester,
       departmentId,
       courseCode,
-      courseType,
       courseName,
       instructorId,
       registeredStudents,
@@ -101,7 +99,6 @@ export default function Instructors() {
       semester &&
       departmentId &&
       courseCode &&
-      courseType &&
       courseName &&
       instructorId &&
       registeredStudents
@@ -115,7 +112,7 @@ export default function Instructors() {
             .trim()
             .toLocaleUpperCase(
               "tr-TR"
-            )}&year=${year}&departmentId=${departmentId}&instructorId=${instructorId}&semester=${semester}&level=${level}&courseType=${courseType}&registeredStudents=${registeredStudents}`
+            )}&year=${year}&departmentId=${departmentId}&instructorId=${instructorId}&semester=${semester}&level=${level}&registeredStudents=${registeredStudents}`
         ).then((response) => {
           console.log(response);
           if (true) {
@@ -129,7 +126,6 @@ export default function Instructors() {
                 level,
                 semester,
                 departmentId,
-                courseType,
                 courseCode: courseCode.trim().toLocaleUpperCase("tr-TR"),
                 courseName: courseName.trim().toLocaleUpperCase("tr-TR"),
                 instructorId,
@@ -149,7 +145,6 @@ export default function Instructors() {
                 level,
                 semester,
                 departmentId,
-                courseType,
                 courseCode: courseCode.trim().toLocaleUpperCase("tr-TR"),
                 courseName: courseName.trim().toLocaleUpperCase("tr-TR"),
                 instructorId,
@@ -221,7 +216,6 @@ export default function Instructors() {
                 level,
                 semester,
                 departmentId,
-                courseType,
                 courseCode: courseCode.trim().toLocaleUpperCase("tr-TR"),
                 courseName: courseName.trim().toLocaleUpperCase("tr-TR"),
                 instructorId,
@@ -236,7 +230,6 @@ export default function Instructors() {
                 level,
                 semester,
                 departmentId,
-                courseType,
                 courseCode: courseCode.trim().toLocaleUpperCase("tr-TR"),
                 courseName: courseName.trim().toLocaleUpperCase("tr-TR"),
                 instructorId,
@@ -300,7 +293,6 @@ export default function Instructors() {
         semester,
         departmentId,
         courseCode,
-        courseType,
         courseName,
         instructorId,
         registeredStudents
@@ -326,7 +318,6 @@ export default function Instructors() {
       setValue("semester", selection.semester);
       setValue("level", selection.level);
       setValue("courseCode", selection.courseCode);
-      setValue("courseType", selection.courseType);
       setValue("courseName", selection.courseName);
       setValue("registeredStudents", selection.registeredStudents);
       let editing_department = departments.filter(
@@ -395,11 +386,6 @@ export default function Instructors() {
     {
       name: "Ders Kodu",
       selector: (row) => row.courseCode,
-      sortable: true,
-    },
-    {
-      name: "Ders Tipi",
-      selector: (row) => row.courseType,
       sortable: true,
     },
     {
@@ -508,15 +494,6 @@ export default function Instructors() {
                 placeholder="Ders Kodu"
                 title="Ders Kodu"
               />
-              <label htmlFor="course-type-select">Ders Tipi</label>
-              <select {...register("courseType")} id="course-type-select">
-                <option value="">Seçiniz...</option>
-                {["Zorunlu", "Seçmeli", "YÖK"].map((type) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ))}
-              </select>
               <label htmlFor="course-name-input">Ders Adı</label>
               <input
                 {...register("courseName")}
