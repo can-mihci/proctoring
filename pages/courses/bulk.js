@@ -32,7 +32,7 @@ export default function Courses() {
           courseYear: row[5],
           instTitle: row[13],
           instFirstName: (row[14] ? row[14].toLocaleUpperCase('tr-TR') : ""),
-          instLastName: ((row[15] ? row[15].toLocaleUpperCase('tr-TR') : "") + (row[16] ? row[16].toLocaleUpperCase('tr-TR') : "")),
+          instLastName: ((row[15] ? row[15].toLocaleUpperCase('tr-TR') : "") + (row[16] ? ` ${row[16].toLocaleUpperCase('tr-TR')}` : "")),
           registeredStudents: row[17],
         };
       });
