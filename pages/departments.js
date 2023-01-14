@@ -1,4 +1,4 @@
-import styles from "../styles/Instructor.module.css";
+import styles from "../styles/Department.module.css";
 import CustomDataTable from "../components/data-table";
 import { Oval } from "react-loader-spinner";
 
@@ -9,7 +9,9 @@ import Navbar from "../components/navbar";
 
 export default function Instructors() {
   const [departments, setDepartments] = useState([]);
+  const [instructors, setInstructors] = useState([]);
   const [isLoadingDepartments, setLoadingDepartments] = useState(false);
+  const [isLoadingInstructors, setLoadingInstructors] = useState(true);
   const [editMode, setEditMode] = useState(false);
   const [editingEntryId, setEditingEntryId] = useState("");
   const { register, handleSubmit, reset, setValue } = useForm();
@@ -24,6 +26,11 @@ export default function Instructors() {
       setDepartments(response);
       setLoadingDepartments(false);
       console.log(departments);
+      Axios.get("/api/instructors").then((instructors_response) => {
+        console.log(instructors_response.data.result);
+        setInstructors(instructors_response.data.result);
+        setLoadingInstructors(false);
+      });
     });
   }, []);
 
@@ -79,13 +86,84 @@ export default function Instructors() {
     }
   }
 
-  const columns = [
+  let columns = [
     {
       name: "Adı",
       selector: (row) => row.label,
       sortable: true,
     },
+    {
+      name: "Prof.Dr.",
+      selector: (row) => {
+        const total = instructors.filter(instructor => instructor.departmentId === row.id);
+        const number = total.length > 0 ? (total.filter(instructor => instructor.title === "Prof.Dr.")).length : 0
+        return number;
+      },
+      sortable: true,
+      center: true
+    },
+    {
+      name: "Doç.Dr.",
+      selector: (row) => {
+        const total = instructors.filter(instructor => instructor.departmentId === row.id);
+        const number = total.length > 0 ? (total.filter(instructor => instructor.title === "Doç.Dr.")).length : 0
+        return number;
+      },
+      sortable: true,
+      center: true
+    },
+    {
+      name: "Dr.Öğr.Üyesi",
+      selector: (row) => {
+        const total = instructors.filter(instructor => instructor.departmentId === row.id);
+        const number = total.length > 0 ? (total.filter(instructor => instructor.title === "Dr.Öğr.Üyesi")).length : 0
+        return number;
+      },
+      sortable: true,
+      center: true
+    },
+    {
+      name: "Araş.Gör.Dr.",
+      selector: (row) => {
+        const total = instructors.filter(instructor => instructor.departmentId === row.id);
+        const number = total.length > 0 ? (total.filter(instructor => instructor.title === "Araş.Gör.Dr.")).length : 0
+        return number;
+      },
+      sortable: true,
+      center: true
+    },
+    {
+      name: "Araş.Gör.",
+      selector: (row) => {
+        const total = instructors.filter(instructor => instructor.departmentId === row.id);
+        const number = total.length > 0 ? (total.filter(instructor => instructor.title === "Araş.Gör.")).length : 0
+        return number;
+      },
+      sortable: true,
+      center: true
+    },
+    {
+      name: "Öğr.Gör.Dr.",
+      selector: (row) => {
+        const total = instructors.filter(instructor => instructor.departmentId === row.id);
+        const number = total.length > 0 ? (total.filter(instructor => instructor.title === "Öğr.Gör.Dr.")).length : 0
+        return number;
+      },
+      sortable: true,
+      center: true
+    },
+    {
+      name: "Öğr.Gör.",
+      selector: (row) => {
+        const total = instructors.filter(instructor => instructor.departmentId === row.id);
+        const number = total.length > 0 ? (total.filter(instructor => instructor.title === "Öğr.Gör.")).length : 0
+        return number;
+      },
+      sortable: true,
+      center: true
+    }
   ];
+
 
   function ClearForm() {
     setEditMode(false);
@@ -132,7 +210,7 @@ export default function Instructors() {
     <>
       <Navbar />
 
-      {isLoadingDepartments ? (
+      {isLoadingDepartments || isLoadingInstructors ? (
         <div
           style={{
             display: "flex",
@@ -188,7 +266,7 @@ export default function Instructors() {
             <CustomDataTable
               columns={columns}
               data={departments}
-              progressPending={isLoadingDepartments}
+              progressPending={isLoadingDepartments || isLoadingInstructors}
               onSelectedRowsChange={handleSelect}
               selectableRowDisabled={rowDisabledCriteria}
               selectableRows

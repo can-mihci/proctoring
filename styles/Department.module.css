@@ -1,0 +1,30 @@
+.form-main {
+    margin: 50px;
+    width: 600px;
+}
+
+.form-body{
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 10px;
+    gap: 5px;
+}
+
+.form-button-area{
+    display: flex;
+    padding: 10px;
+}
+
+.data-table-container {
+    margin: 50px;
+    width: auto;
+}
+
+.form-button {
+    padding: 2px;
+}
+
+.form-button-right {
+    padding: 2px;
+    margin-left: 5px;
+}
