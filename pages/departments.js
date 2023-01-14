@@ -91,6 +91,7 @@ export default function Instructors() {
       name: "Adı",
       selector: (row) => row.label,
       sortable: true,
+      grow: 10
     },
     {
       name: "Prof.Dr.",

@@ -48,7 +48,7 @@ export default function Courses() {
           stagedCourses.map(async (entry, index) => {
             if (entry.courseCode) {
               new_course_code_entries.push(entry.courseCode);
-              const unique_course_code_entries = new_course_code_entries.filter(
+/*               const unique_course_code_entries = new_course_code_entries.filter(
                 (item) => item === entry.courseCode
               );
               if (unique_course_code_entries.length > 1) {
@@ -59,7 +59,7 @@ export default function Courses() {
                   status: "Hata",
                   message: `${entry.courseCode} kodlu ders tabloda birden fazla kez geçiyor!`,
                 };
-              }
+              } */
               const response = await Axios.get("/api/courses/find", {
                 params: { courseCode: entry.courseCode, year: entry.year },
               });
@@ -162,8 +162,8 @@ export default function Courses() {
                       );
                       const existing_instructor = instructor_search.data.result;
                       const existing_department = department_search.data.result;
-                      console.log(existing_instructor);
-                      console.log(existing_department);
+                      //console.log(existing_instructor);
+                      //console.log(existing_department);
 
                       if (existing_instructor.length === 0) {
                         new_instructor_entries.push(INSTRUCTOR_NAME);
@@ -190,7 +190,13 @@ export default function Courses() {
                           );
                           const { result } = adding_instructor.data;
                           console.log(result);
+                          if (result.acknowledged){
+                            success_object.instructorId = result.insertedId;
+                          }
                         }
+                      }
+                      else {
+                        success_object.instructorId = existing_instructor[0]._id;
                       }
 
                       if (existing_department.length === 0) {
@@ -216,9 +222,13 @@ export default function Courses() {
                           );
                           const { result } = adding_department.data;
                           console.log(result);
+                          if (result.acknowledged){
+                            success_object.departmentId = result.departmentId;
+                          }
                         }
+                      } else {
+                        success_object.departmentId = existing_department[0]._id;
                       }
-
                       return success_object;
                     }
                   }
@@ -238,8 +248,69 @@ export default function Courses() {
             }
           })
         );
-        console.table(report);
-        setIncomingCourses(report);
+/*         console.table(report); */
+        //setIncomingCourses(report);
+
+        const successful_entries = report.filter(entry => entry.status === "Başarılı");
+        let multiple_entries = [];
+        successful_entries.forEach(entry => {
+          const filtered_entries = successful_entries.filter(filter_entry => filter_entry.courseCode === entry.courseCode);
+          if (filtered_entries.length > 1){
+            multiple_entries.push(entry);
+          }
+        });
+/*         console.log("Multiple Entries Table:");
+        console.table(multiple_entries); */
+
+        let joined_entries=[];
+
+        multiple_entries.forEach(entry=>{
+          
+          const filtered_entries = multiple_entries.filter(filter_entry => {return (entry.courseCode === filter_entry.courseCode && entry.instructorId === filter_entry.instructorId)})
+          if (filtered_entries.length > 1) {
+
+            let calculatedRegisteredStudents = 0;
+            filtered_entries.forEach(calculationEntry => {calculatedRegisteredStudents = calculatedRegisteredStudents + parseInt(calculationEntry.registeredStudents)})
+            joined_entries.push({
+              ...entry,
+              registeredStudents : calculatedRegisteredStudents
+            })
+          }
+        })
+        //console.log("Joined Entries Table:");
+        //console.table(joined_entries);
+
+        //console.log("Unique Joined Entries Table:");
+        const unique_joined_entries = joined_entries.filter((v,i,a)=>a.findIndex(v2=>['courseCode','instructorId'].every(k=>v2[k] ===v[k]))===i)
+        //console.table(unique_joined_entries);
+
+        const joined_course_codes = unique_joined_entries.map((entry) => {
+          return entry.courseCode;
+        })
+        const unique_joined_course_codes = [...new Set(joined_course_codes)];
+
+        let numbered_joined_entries = [];
+
+        unique_joined_course_codes.forEach(courseCode => {
+          const filtered_entries = unique_joined_entries.filter(entry=> entry.courseCode === courseCode);
+          const numbered_filtered_entries = filtered_entries.map((item, index) => {
+            return {
+              ...item,
+              courseCode : `${item.courseCode}-${index+1}`
+            }
+          })
+          numbered_filtered_entries.forEach(entry => {
+            numbered_joined_entries.push(entry);
+          })
+        })
+
+        //console.log("Numbered Joined Entries Table:");
+        //console.table(numbered_joined_entries);
+
+        const single_courses = successful_entries.filter(entry => !(unique_joined_course_codes.includes(entry.courseCode)))
+        const final_report = [...single_courses, ...numbered_joined_entries];
+        setIncomingCourses(final_report);
+        console.table(final_report)
       }
       prepareReport();
     });
